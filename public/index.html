@@ -3,617 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jane Doe Photography | Professional Portfolio</title>
+    <title>Photo Session Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
     <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --light: #f8f9fa;
+            --dark: #212529;
         }
         
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f8f8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: var(--dark);
         }
         
-        a {
-            text-decoration: none;
-            color: #000;
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            text-align: center;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 2rem;
         }
         
-        /* Header */
-        header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            z-index: 100;
+        .calendar-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
         
-        .header-content {
+        .booking-filters {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
         
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 1px;
+        .filter-group {
+            margin: 0.5rem;
         }
         
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 30px;
-        }
-        
-        nav ul li a {
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: #777;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), #777;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .hero-content {
-            text-align: center;
-            color: #fff;
-            z-index: 1;
-            max-width: 800px;
-            padding: 20px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        
-        .hero-content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-        
-        .hero-content p {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            font-weight: 500;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #fff;
-            color: #333;
-        }
-        
-        /* Portfolio Section */
-        .portfolio {
-            padding: 100px 0;
-            background-color: #fff;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 32px;
-            font-weight: 700;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: #000;
-        }
-        
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-        }
-        
-        .portfolio-item {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            height: 300px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-weight: bold;
-        }
-        
-        .portfolio-item img-placeholder {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .portfolio-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .portfolio-item:hover .portfolio-overlay {
-            opacity: 1;
-        }
-        
-        .portfolio-overlay h3 {
-            color: #fff;
-            font-size: 20px;
-        }
-        
-        /* About Section */
-        .about {
-            padding: 100px 0;
-            background-color: #f8f8f8;
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-        
-        .about-image {
-            flex: 1;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            height: 400px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-weight: bold;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-text h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        
-        .about-text p {
-            margin-bottom: 20px;
-            color: #555;
-        }
-        
-        /* Services Section */
-        .services {
-            padding: 100px 0;
-            background-color: #fff;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-        
-        .service-item {
-            text-align: center;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            min-height: 300px;
-        }
-        
-        .service-item:hover {
-            transform: translateY(-10px);
-        }
-        
-        .service-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-            color: #000;
-        }
-        
-        .service-item h3 {
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-        
-        /* Contact Section */
-        .contact {
-            padding: 100px 0;
-            background-color: #f8f8f8;
-        }
-        
-        .contact-content {
-            display: flex;
-            gap: 50px;
-        }
-        
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-info h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .contact-info p {
-            margin-bottom: 15px;
-            color: #555;
-        }
-        
-        .contact-form {
-            flex: 1;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
+        select, button {
+            padding: 0.5rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
+            border-radius: 5px;
+            font-size: 1rem;
         }
         
-        .form-group textarea {
-            height: 150px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            font-weight: 500;
+        button {
+            background-color: var(--primary);
+            color: white;
             cursor: pointer;
-            transition: background-color 0.3s;
+            border: none;
         }
         
-        .submit-btn:hover {
-            background-color: #333;
+        button:hover {
+            background-color: #2a75e0;
         }
         
-        /* Footer */
-        footer {
-            background-color: #000;
-            color: #fff;
-            padding: 40px 0;
-            text-align: center;
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
         }
         
-        .social-links {
-            margin-bottom: 20px;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
         }
         
-        .social-links a {
-            color: #fff;
-            margin: 0 15px;
-            font-size: 20px;
-            transition: color 0.3s;
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
         }
         
-        .social-links a:hover {
-            color: #ccc;
-        }
-        
-        .footer-bottom {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #999;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .about-content,
-            .contact-content {
-                flex-direction: column;
-            }
-            
-            .about-image,
-            .contact-info,
-            .contact-form {
-                flex: none;
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 36px;
-            }
-            
-            .hero-content p {
-                font-size: 18px;
-            }
-            
-            .portfolio-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background-color: #fff;
-                flex-direction: column;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-                display: none;
-            }
-            
-            nav ul.show {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                padding: 15px 20px;
-                border-bottom: 1px solid #eee;
-            }
-            
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-            }
-        }
+        .available { background-color: #4CAF50; }
+        .booked { background-color: #f44336; }
+        .limited { background-color: #ff9800; }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <a href="#">Jane Doe</a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+        <h1>Professional Photography Sessions</h1>
+        <p>Book your perfect moment with our professional photographers</p>
     </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Jane Doe Photography</h1>
-            <p>Capturing life's most beautiful moments with passion and artistry</p>
-            <a href="#portfolio" class="btn">View My Work</a>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <div class="container">
-            <h2 class="section-title">Portfolio</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Portrait</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Wedding</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Fashion</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Nature</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Architecture</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-overlay">
-                        <h3>Events</h3>
-                    </div>
-                </div>
+    
+    <div class="container">
+        <section class="booking-filters">
+            <div class="filter-group">
+                <label for="session-type">Session Type:</label>
+                <select id="session-type">
+                    <option value="all">All Types</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="family">Family</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="product">Product</option>
+                    <option value="event">Event</option>
+                </select>
             </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    [Your Photo Placeholder]
-                </div>
-                <div class="about-text">
-                    <h2>Jane Doe</h2>
-                    <p>Hello! I'm Jane, a professional photographer with over 8 years of experience capturing life's most precious moments. My journey in photography began when I received my first camera as a gift from my grandfather, and since then, I've been passionate about telling stories through images.</p>
-                    <p>I specialize in portrait, wedding, and fashion photography, with a style that blends artistic vision with authentic moments. My approach is collaborative—I work closely with my clients to understand their vision and bring it to life through my lens.</p>
-                    <p>When I'm not behind the camera, you can find me exploring new locations, attending photography exhibitions, or teaching workshops to aspiring photographers. I believe that every photograph has the power to evoke emotion and preserve memories for generations.</p>
-                    <p>I'm currently based in New York but available for travel worldwide. Let's create something beautiful together!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Services</h2>
-            <div class="services-grid">
-                <div class="service-item">
-                    <div class="service-icon">👤</div>
-                    <h3>Portrait Photography</h3>
-                    <p>Professional portraits for individuals, families, and corporate headshots that capture your unique personality.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">💍</div>
-                    <h3>Wedding Photography</h3>
-                    <p>Comprehensive wedding coverage that documents your special day with elegance and emotion.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">👗</div>
-                    <h3>Fashion Photography</h3>
-                    <p>Stylish and creative fashion imagery for brands, designers, and models.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Me</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Get In Touch</h3>
-                    <p><strong>Email:</strong> hello@janedoe.com</p>
-                    <p><strong>Phone:</strong> (555) 123-4567</p>
-                    <p><strong>Location:</strong> New York, NY</p>
-                    <p>I'm available for photography assignments and collaborations. Whether you're planning a wedding, need professional portraits, or have a creative project in mind, I'd love to hear from you!</p>
-                    <p>Please allow 1-2 business days for a response.</p>
-                </div>
-                <div class="contact-form">
-                    <form action="#" method="POST">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#" aria-label="Instagram">Instagram</a>
-                <a href="#" aria-label="Facebook">Facebook</a>
-                <a href="#" aria-label="Twitter">Twitter</a>
-                <a href="#" aria-label="Pinterest">Pinterest</a>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Jane Doe Photography. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Simple script for mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form submission handling
-            const form = document.querySelector('form');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Thank you for your message! I will get back to you soon.');
-                    form.reset();
-                });
-            }
             
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
+            <div class="filter-group">
+                <label for="session-duration">Duration:</label>
+                <select id="session-duration">
+                    <option value="all">All Durations</option>
+                    <option value="30">30 min</option>
+                    <option value="60">1 hour</option>
+                    <option value="90">1.5 hours</option>
+                    <option value="120">2 hours</option>
+                </select>
+            </div>
+            
+            <button id="apply-filters">Apply Filters</button>
+        </section>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color available"></div>
+                <span>Available</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color limited"></div>
+                <span>Limited Spots</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color booked"></div>
+                <span>Booked</span>
+            </div>
+        </div>
+        
+        <div class="calendar-container">
+            <div id="calendar"></div>
+        </div>
+        
+        <div class="booking-instructions">
+            <h3>How to Book:</h3>
+            <ol>
+                <li>Select your preferred date and time from the available green slots</li>
+                <li>Choose your session type and duration</li>
+                <li>Fill in your contact information</li>
+                <li>Confirm and pay to secure your booking</li>
+            </ol>
+            <p>Note: All times shown are in your local time zone.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [
+                    // Sample available slots (in a real implementation, these would come from a database)
+                    {
+                        title: 'Available',
+                        start: '2023-10-15T09:00:00',
+                        end: '2023-10-15T10:00:00',
+                        backgroundColor: '#4CAF50',
+                        borderColor: '#4CAF50',
+                        textColor: 'white'
+                    },
+                    {
+                        title: 'Available',
+                        start: '2023-10-15T13:00:00',
+                        end: '2023-10-15T14:30:00',
+                        backgroundColor: '#4CAF50',
+                        borderColor: '#4CAF50',
+                        textColor: 'white'
+                    },
+                    {
+                        title: 'Limited Spots',
+                        start: '2023-10-16T10:00:00',
+                        end: '2023-10-16T11:00:00',
+                        backgroundColor: '#ff9800',
+                        borderColor: '#ff9800',
+                        textColor: 'white'
+                    },
+                    {
+                        title: 'Booked',
+                        start: '2023-10-16T14:00:00',
+                        end: '2023-10-16T15:00:00',
+                        backgroundColor: '#f44336',
+                        borderColor: '#f44336',
+                        textColor: 'white'
+                    }
+                ],
+                dateClick: function(info) {
+                    // Handle date click for booking
+                    alert(`You clicked on ${info.dateStr}. Click on a time slot to book.`);
+                },
+                eventClick: function(info) {
+                    if (info.event.backgroundColor !== '#f44336') {  // Not booked
+                        const confirm = confirm(`Book ${info.event.title} on ${info.event.start.toLocaleString()}?`);
+                        if (confirm) {
+                            // Redirect to booking form with selected time
+                            window.location.href = `booking-form.html?date=${info.event.start.toISOString()}&duration=${info.event.end - info.event.start}`;
+                        }
+                    }
+                },
+                selectable: true
             });
+            calendar.render();
         });
     </script>
 </body>
